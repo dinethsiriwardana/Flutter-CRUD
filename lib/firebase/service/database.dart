@@ -5,6 +5,7 @@ import 'package:crud_all/firebase/service/api_path.dart';
 abstract class Database {
   Future<void> writeData(String indexno, dataModel dataModel);
   Stream<List<dataModel>> readDataStream();
+  Future<titleModel?> readDocDataStream();
 }
 
 // /data/student_details/2010/
@@ -27,6 +28,8 @@ class FirestoreDatabase implements Database {
     await reference.set(data);
   }
 
+  // Write data as Stream Bulk list
+
   Stream<List<dataModel>> readDataStream() {
     final path = APIPath.rdatapath();
     final reference = FirebaseFirestore.instance
@@ -38,6 +41,17 @@ class FirestoreDatabase implements Database {
     return snapshots.map((snapshot) => snapshot.docs
         .map((snapshot) => dataModel.fromMap(snapshot.data()))
         .toList());
+  }
+
+  // Write data as One Doc
+
+  Future<titleModel?> readDocDataStream() async {
+    final path = APIPath.rsdatapath();
+    final reference =
+        FirebaseFirestore.instance.collection(path).doc('68otY4kvzygFJSOkUK6R');
+    final snapshot = await reference.get();
+
+    return titleModel.fromMap(snapshot.data()!);
   }
 
   Future<void> updateData(String indexno, Map<String, dynamic> data) =>
