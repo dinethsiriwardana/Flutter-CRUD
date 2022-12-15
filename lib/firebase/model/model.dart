@@ -30,3 +30,22 @@ class dataModel {
     };
   }
 }
+
+// For the Home page
+class titleModel {
+  titleModel({
+    required this.title1,
+    required this.title2,
+    required this.title3,
+  });
+  final String title1;
+  final String title2;
+  final String title3;
+
+  factory titleModel.fromMap(Map<String, dynamic> data) {
+    String title1 = data['title1'] ?? "";
+    String title2 = data['title2'] ?? "";
+    String title3 = data['title3'] ?? "";
+    return titleModel(title1: title1, title2: title2, title3: title3);
+  }
+}
